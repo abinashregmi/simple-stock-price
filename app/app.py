@@ -1,22 +1,21 @@
-import streamlit as st
 import yfinance as yf
-import pandas as pd
+import streamlit as st
 
-st.title("📈 Simple Stock Price App")
-st.write("✅ App loaded successfully.")
+st.write("""
+# Simple Stock Price App
 
+Shown are the stock closing price and volume of Google!
+
+""")
+
+# https://towardsdatascience.com/how-to-get-stock-data-using-python-c0de1df17e75
+#define the ticker symbol
 tickerSymbol = 'GOOGL'
+#get data on this ticker
 tickerData = yf.Ticker(tickerSymbol)
-tickerDf = tickerData.history(start='2010-05-31', end='2020-05-31')
+#get the historical prices for this ticker
+tickerDf = tickerData.history(period='1d', start='2010-5-31', end='2020-5-31')
+# Open	High	Low	Close	Volume	Dividends	Stock Splits
 
-st.write("Ticker Symbol:", tickerSymbol)
-st.write("Data shape:", tickerDf.shape)
-
-if not tickerDf.empty:
-    st.subheader("Closing Price")
-    st.line_chart(tickerDf.Close)
-
-    st.subheader("Volume")
-    st.line_chart(tickerDf.Volume)
-else:
-    st.warning("⚠️ No data found for the selected ticker and date range.")
+st.line_chart(tickerDf.Close)
+st.line_chart(tickerDf.Volume)
